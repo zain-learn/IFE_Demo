@@ -74,9 +74,41 @@ span{
 	line-height: 3em;
 	text-align: center;
 }
-
-
-
+.LastPassage table{
+	border-collapse: collapse;
+	width:100%;
+}
+.LastPassage table .head{
+	background-color: #333333;
+	color:white;
+	font-weight: 700;
+}
+.LastPassage table .foot{
+	background-color: #CDCDCD;
+}
+.LastPassage table td{
+	border:1px solid #BCBCBC;
+	height:2em;
+	line-height: 2em;
+	text-indent: 1em;
+}
+.SideBar h2{
+	border-left:4px solid #CDCDCD; 
+	text-indent: 2em;
+}
+.SideBar table{
+	margin:0 auto;
+}
+.SideBar table td{
+	vertical-align: top;
+}
+.SideBar [type=submit]{
+	height:40px;
+	width:100%;
+	background-color: #3355D0;
+	color:white;
+	font-weight: 700;
+}
 .Editer{
 	color:white;
 	line-height:100%;
@@ -86,3 +118,5 @@ span{
 	width:100%;
 	margin-bottom: 0;
 }
+/* Editer:zainking */
+/* To Baidu IFE 2017 Spring Xiaowei_02 */

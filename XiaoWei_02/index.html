@@ -13,6 +13,7 @@
 <div class="middle">
 	<h1>网站一级标题</h1>
 	<img src="image/logo_white.png" alt="logo" class="fl">
+	<!-- 因为觉得这个Logo在这个背景最漂亮所以换了这个Logo -->
 	<ul class="fr">
 		<li class="fl"><a href="#">导航链接一</a></li>
 		<li class="fl"><a href="#">导航链接二</a></li>
@@ -78,8 +79,8 @@
 		<li>排名3</li>
 	</ol>
 	<p>下面是一个表格，给表格加了一个border="1"好让你看出是一个表格。</p>
-	<table border="1">
-		<tr>
+	<table>
+		<tr class="head">
 			<td>表头</td>
 			<td>表头</td>
 			<td>表头</td>
@@ -104,7 +105,7 @@
 			<td>表内容单元格</td>
 			<td><a href="#">操作</a></td>
 		</tr>
-		<tr>
+		<tr class="foot">
 			<td>总计</td>
 			<td colspan="2">1000</td>
 		</tr>
@@ -113,22 +114,47 @@
 <!-- E=LastPassage -->
 <!-- S=SideBar -->
 <div class="SideBar">
-	<h1>这里以后是一个侧栏，这是侧栏的标题</h1>
-	<form>
-	<h2>侧栏注册窗口标题</h2>
-	请输入邮箱地址：<input type="text" value="这是一个文本输入框"><br>
-	邮箱地址请按要求格式输入<br>
-	请输入密码：<input type="password" value="这是一个文本输入框">请重复输入密码：<input type="password" value="这是一个文本输入框"><br> 
-	<!-- 小薇姐姐这里应该是密码输入而不是文本吧:) -->
-	性别：<input type="radio" name="sex" value="male" checked="checked">男 <input type="radio" name="sex" value="male">女 城市：<select name="city" id="cityInput">
+	<h2>这里以后是一个侧栏，这是侧栏的标题</h2>
+	<table valign="top">
+		<tr>
+			<td>请输入邮箱地址：</td>
+			<td><input type="text" value="这是一个文本输入框"><br>
+	<span>邮箱地址请按要求格式输入</span></td>
+		</tr>
+		<tr>
+			<td>请输入密码：</td>
+			<td><input type="password" value="这是一个文本输入框"></td>
+		</tr>
+		<tr>
+			<td>请重复输入密码：</td>
+			<td>	<input type="password" value="这是一个文本输入框"><br> 
+	<span>密码请为6-16位英文数字</span>
+	<!-- 小薇姐姐这里应该是密码输入而不是文本吧:) --></td>
+		</tr>
+		<tr>
+			<td>性别：</td>
+			<td><input type="radio" name="sex" value="male" checked="checked">男 <input type="radio" name="sex" value="male">女 </td>
+		</tr>
+		<tr>
+			<td>城市：</td>
+			<td>	<select name="city" id="cityInput">
 	<option value="Beijing">北京</option>
 	<option value="Shanghai">上海</option>
-	<option value="Guangzhou">广州</option></select> 
-	爱好：
-	<input type="checkbox" name="hobby">运动
+	<option value="Guangzhou">广州</option></select> </td>
+		</tr>
+		<tr>
+			<td>爱好：</td>
+			<td><input type="checkbox" name="hobby">运动
 	<input type="checkbox" name="hobby">艺术
-	<input type="checkbox" name="hobby">科学 
-	个人描述：<textarea name="introduce" id="introduceInput" cols="30" rows="2"></textarea><input type="submit" value="确认提交">
+	<input type="checkbox" name="hobby">科学 </td>
+		</tr>
+		<tr>
+			<td>个人描述：</td>
+			<td><textarea name="introduce" id="introduceInput" cols="30" rows="2"></textarea></td>
+		</tr>
+	</table>
+	<form>
+	<input type="submit" value="确认提交">
 	</form>
 </div>
 <!-- E=Sidebar -->
@@ -137,4 +163,4 @@
 </html>
 
 <!-- Editer:zainking -->
-<!-- To Baidu IFE 2017 Spring Xiaowei_01 -->
+<!-- To Baidu IFE 2017 Spring Xiaowei_02 -->
