@@ -1,0 +1,35 @@
+@charset "UTF-8";
+img{
+	border:2px solid #999;
+}
+div{
+	border:2px solid #999;
+	margin:20px;
+	padding:20px;
+	background-color: white;
+	overflow: auto;
+}
+p{
+	line-height: 1.2em;
+}
+.total{
+	background-color: #eee;
+	width: 94%;
+}
+.left{
+	width: 200px;
+}
+.left>h1{
+	display: inline-block;
+	font-weight: 700;
+	width: 100%;
+	text-indent: 3em;
+	position: absolute;
+}
+.right{
+	width:120px;
+	text-align: center;
+}
+.right img{
+	margin:10px;
+}
