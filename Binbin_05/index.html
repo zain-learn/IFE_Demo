@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body{position: relative;}
+	.main{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, 0);
+		background-color: #AAA;
+		width: 50%;
+		height:50%;
+		min-height: 480px;
+		min-width: 640px;
+		text-align: center;
+		}
+	#num{
+		display:block;
+		height:70px;
+		width: 200px;
+		font-size: 64px;
+		text-align: center;
+	}
+	button{
+		height:30px;
+		width: 100px;
+		margin:0 auto;
+	}
+	.input{text-align: center;display: inline-block;margin-top: 10%;background-color: #DDDDDD;}
+	.output ul{
+		list-style: none;
+		overflow: auto;
+		padding-right: 28px;
+	}
+	.output li{
+		float: left;
+		color:yellow;
+		background-color: red;
+		font-size: 0px;
+		margin-right: 4px;
+		width: 10px;
+		margin-bottom: 10px;
+		display: inline;
+	}
+	.output{
+		text-align: center;
+		display: inline-block;
+		margin-top: 10%;
+		background-color: #DDDDDD;
+		/*垂直翻转*/
+	     -moz-transform:scaleY(-1);
+   		 -webkit-transform:scaleY(-1);
+   		 -o-transform:scaleY(-1);
+   		 transform:scaleY(-1);
+    	 /*IE*/
+    	 filter:FlipV;
+	}
+	#sort{
+		width:418px;
+		color:red;
+		font-size: 16px;
+	}
+	</style>
+</head>
+<body>
+	<div class="main">
+	<div class="input">
+	<table>
+	<tr>
+		<td><button id="left_in">左侧入</button><br></td>
+		<td rowspan="2"><input id="num" type="text"></td>
+		<td><button id="right_in">右侧入</button><br></td>
+	</tr>
+	<tr>
+		<td><button id="left_out">左侧出</button></td>
+
+		<td><button id="right_out">右侧出</button></td>
+	</tr>
+	<tr>
+		<td colspan="3"><button id="sort">排序</button></td>
+	</tr>
+	</table>
+	</div>
+	<br>
+	<div class="output">
+	<ul id="alignment">
+	<!-- 
+	<li>30</li>
+	<li>30</li>
+	 -->
+	</ul>
+	</div>
+	</div>
+
+	<script>
+	var alignment =[];
+	function check(num){
+		if(isNaN(num) || Number(num) > 100 ||Number(num) < 10){
+			alert("您的输入不合法！请输入10~100的数字！");
+			return false;
+		}else if(alignment.length >= 60){
+			alert("输入的数据超过60个！无法继续输入！");
+			return false;
+		}else return Number(num);
+	}
+	function leftIn(){
+		if(check(document.getElementById('num').value)){
+			alignment.unshift(check(document.getElementById('num').value));
+			document.getElementById('alignment').innerHTML = "<li style ='height:" + check(document.getElementById('num').value) + "px'>" +/* check(document.getElementById('num').value) + */"</li>" + document.getElementById('alignment').innerHTML;
+		}else return false;
+	}
+	function rightIn(){
+		if(check(document.getElementById('num').value)){
+			alignment.push(check(document.getElementById('num').value));
+			document.getElementById('alignment').innerHTML += "<li style ='height:" + check(document.getElementById('num').value) + "px'>" +/* check(document.getElementById('num').value) +*/"</li>"
+		}else return false;
+	}
+	function leftOut(){
+		if(document.getElementById('alignment').getElementsByTagName('li').length == 0){alert("没有数据可以移除了！"); return false;}
+		alert("移除了"+ alignment.shift()/*document.getElementById('alignment').getElementsByTagName('li')[0].innerHTML*/);
+		document.getElementById('alignment').removeChild(document.getElementById('alignment').getElementsByTagName('li')[0]);
+	}
+	function rightOut(){
+		if(document.getElementById('alignment').getElementsByTagName('li').length == 0){alert("没有数据可以移除了！"); return false;}
+		alert("移除了"+ alignment.pop()/*document.getElementById('alignment').getElementsByTagName('li')[document.getElementById('alignment').getElementsByTagName('li').length-1].innerHTML*/);
+		document.getElementById('alignment').removeChild(document.getElementById('alignment').getElementsByTagName('li')[document.getElementById('alignment').getElementsByTagName('li').length-1]);
+	}
+	function sort(){
+		for(var i=0;i<alignment.length-1;i++){
+			for(var j=i;j<alignment.length;j++){
+					var temp;
+					if(alignment[j]<alignment[i]){
+						temp=alignment[i];
+						alignment[i]=alignment[j];
+						alignment[j]=temp;
+					}
+				}
+		}
+		document.getElementById('alignment').innerHTML = "";
+		for(var i=0;i<alignment.length;i++){
+			document.getElementById('alignment').innerHTML += "<li style ='height:" + alignment[i] + "px'>" + "</li>";
+		}
+	}
+	document.getElementById('left_in').onclick = function(){leftIn();}
+	document.getElementById('right_in').onclick = function(){rightIn();}
+	document.getElementById('left_out').onclick = function(){leftOut();}
+	document.getElementById('right_out').onclick = function(){rightOut();}
+	document.getElementById('sort').onclick = function(){sort();}
+	</script>
+</body>
+</html>
