@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.main{
+			background-color: #AAA;
+			margin:0 auto;
+			width:640px;
+			height:480px;
+			vertical-align: middle;
+			text-align: center;
+		}
+		#text{
+			margin-top: 100px;
+			width: 200px;
+			height:150px;
+			display: inline-block;
+		}
+		#output{
+			margin-top: 100px;
+			width: 200px;
+			height:150px;
+			background-color: #fff;
+			display: inline-block;
+			border: 3px solid black;
+			margin-left: 5px;
+			text-align: left;
+			overflow: auto;
+			word-wrap:break-word;
+		}
+		#input{
+			width:300px;
+		}
+		#search{
+			width:115px;
+			background-color: #9900FF;
+			color:white;
+		}
+	</style>
+</head>
+<body>
+	<div class=main>
+		<textarea name="text" id="text" cols="30" rows="10" placeholder="请输入文本内容..."></textarea><div id="output"><span style="color:gray;font-size: 12px;">搜索结果会在这里展示...</span></div><br>
+		<input type="text" id="input" placeholder="请输入搜索内容..."><button id="search">搜索</button>
+	</div>
+	<script>
+	var text = document.getElementById('text'),
+		output = document.getElementById('output'),
+		search = document.getElementById('search'),
+		input = document.getElementById('input'),
+		fonter = output.getElementsByTagName('span');
+	function copy(){
+		if(text.value.length>0){
+			output.innerHTML = "";
+			for(var i = 0;i<text.value.length;i++){
+				output.innerHTML +="<span>" + text.value[i]; + "</span>";
+			}
+		}
+	}
+	function searchfor(part){
+		for(var i = 0;i<fonter.length-part.length + 1;i++){
+			var yes = true;
+			for(var j = 0;j < part.length;j++){
+				yes = yes && (part[j] == fonter[i+j].innerHTML);
+			}
+			if(yes){
+				for(var j = 0;j < part.length;j++){
+					fonter[i+j].setAttribute("style","background-color:yellow;");
+				}
+			}
+		}
+	}
+	function searchInput(inputValue){
+		for(var k = 0;k < inputValue.length+1;k++){
+			for(var i = k,l=0;i < inputValue.length;i++,l++){
+				var inputPart = "";
+				for(var j = i;j < inputValue.length;j++){
+					inputPart += inputValue[j-l];
+				}
+				if(inputPart.length>1){
+				searchfor(inputPart);
+				}
+			}
+		}
+	}
+	search.onclick = function(){
+		copy();
+		if(input.value.length > 1){
+			searchInput(input.value);
+		}else if(input.value.length == 1){
+			searchfor(input.value);
+		}else if(input.value.length == 0){
+			alert("请输入搜索内容！");
+		}
+	}
+	</script>
+</body>
+</html>
