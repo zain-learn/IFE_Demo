@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body{position: relative;}
+	.main{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, 0);
+		background-color: #AAA;
+		width: 50%;
+		height:50%;
+		min-height: 480px;
+		min-width: 640px;
+		text-align: center;
+		}
+	#num{
+		display:block;
+		height:70px;
+		width: 200px;
+		font-size: 16px;
+		text-align: center;
+	}
+	button{
+		height:30px;
+		width: 100px;
+	}
+	.input{text-align: center;display: inline-block;margin-top: 10%;background-color: #DDDDDD;}
+	.output ul{
+		list-style: none;
+		overflow: auto;
+	}
+	.output li{
+		float: left;
+		color:yellow;
+		background-color: #000;
+		font-size: 36px;
+		margin-right: 36px;
+	}
+	.output{text-align: center;display: inline-block;margin-top: 10%;background-color: #DDDDDD;}
+	#search{
+		float:right;
+		width:300px;
+		height:30px;
+	}
+	#searchDo{
+		background-color: 
+		green;color:white;
+	}
+	</style>
+</head>
+<body>
+	<div class="main">
+	<div class="input">
+	<table>
+	<tr>
+		<td><button id="left_in">左侧入</button><br></td>
+		<td rowspan="2"><textarea id="num"></textarea></td>
+		<td><button id="right_in">右侧入</button><br></td>
+	</tr>
+	<tr>
+		<td><button id="left_out">左侧出</button></td>
+
+		<td><button id="right_out">右侧出</button></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input id="search" type="text" placeholder="请输入搜索内容"></td>
+		<td><button id="searchDo">搜索</button></td>
+	</tr>
+	</table>
+	</div>
+	<br>
+	<div class="output">
+	<ul id="alignment">
+	<!-- 
+	<li>30</li>
+	<li>30</li>
+	 -->
+	</ul>
+	</div>
+	</div>
+
+	<script>
+	// function check(num){
+	// 	if(isNaN(num)){
+	// 		alert("您输入的不是一个数字，请输入一个数字！");
+	// 		return false;
+	// 	}else return Number(num);
+	// }
+	var text = document.getElementById('num'),
+		alignment = document.getElementById('alignment'),
+		orderLi = alignment.getElementsByTagName('li'),
+		input = document.getElementById('search'),
+		search = document.getElementById('searchDo');
+	function leftIn(){
+			alignment.innerHTML = "</li>" + alignment.innerHTML;
+			for(i = text.value.length - 1;i >= 0;i--){
+				alignment.innerHTML = "<span>" + text.value[i] + "</span>" + alignment.innerHTML;
+			}
+			alignment.innerHTML = "<li>" + alignment.innerHTML;
+	}
+	function rightIn(){
+		function inner(){
+			var inn = "";
+			for(i = 0;i < text.value.length;i++){
+				inn += "<span>" + text.value[i] + "</span>";
+			}
+			return inn;
+		}
+			alignment.innerHTML += "<li>" + inner() + "</li>";
+			console.log("!")
+	}
+	function leftOut(){
+		if(orderLi.length == 0){alert("没有数据可以移除了！"); return false;}
+		var inn = "";
+		for(i = 0;i < orderLi[0].getElementsByTagName('span').length;i++){
+			inn += orderLi[0].getElementsByTagName('span')[i].innerHTML;
+		}
+		alert("移除了"+ inn);
+		alignment.removeChild(orderLi[0]);
+	}
+	function rightOut(){
+		if(orderLi.length == 0){alert("没有数据可以移除了！"); return false;}
+		var inn = "";
+		for(i = 0;i < orderLi[orderLi.length-1].getElementsByTagName('span').length;i++){
+			inn += orderLi[orderLi.length-1].getElementsByTagName('span')[i].innerHTML;
+		}
+		alert("移除了"+ inn);
+		alignment.removeChild(orderLi[orderLi.length-1]);
+	}
+	function cls(){
+		for(i = 0;i < orderLi.length;i++){
+			for(j = 0;j<orderLi[i].getElementsByTagName('span').length;j++){
+				orderLi[i].getElementsByTagName('span')[j].setAttribute("style","background-color:black;");
+			}
+		}
+	}
+
+
+	function searchfor(part){
+		
+		for(var order = 0;order < orderLi.length;order++){
+			var fonter = orderLi[order].getElementsByTagName('span');
+			for(var i = 0;i<fonter.length-part.length + 1;i++){
+				var yes = true;
+				for(var j = 0;j < part.length;j++){
+					yes = yes && (part[j] == fonter[i+j].innerHTML);
+				}
+				if(yes){
+					for(var j = 0;j < part.length;j++){
+						fonter[i+j].setAttribute("style","background-color:green;");
+					}
+				}
+			}
+		}
+	}
+	function searchInput(inputValue){
+		for(var k = 0;k < inputValue.length+1;k++){
+			for(var i = k,l=0;i < inputValue.length;i++,l++){
+				var inputPart = "";
+				for(var j = i;j < inputValue.length;j++){
+					inputPart += inputValue[j-l];
+				}
+				if(inputPart.length>1){
+				searchfor(inputPart);
+				}
+			}
+		}
+	}
+	search.onclick = function(){
+		cls();
+		if(input.value.length > 1){
+			searchInput(input.value);
+		}else if(input.value.length == 1){
+			searchfor(input.value);
+		}else if(input.value.length == 0){
+			alert("请输入搜索内容！");
+		}
+	}
+
+
+
+	document.getElementById('left_in').onclick = function(){leftIn();}
+	document.getElementById('right_in').onclick = function(){rightIn();}
+	document.getElementById('left_out').onclick = function(){leftOut();}
+	document.getElementById('right_out').onclick = function(){rightOut();}
+	</script>
+</body>
+</html>
