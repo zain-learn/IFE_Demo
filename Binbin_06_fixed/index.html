@@ -21,8 +21,7 @@
 		display:block;
 		height:70px;
 		width: 200px;
-		font-size: 16px;
-		text-align: center;
+		font-size: 12px;
 	}
 	button{
 		height:30px;
@@ -58,7 +57,7 @@
 	<table>
 	<tr>
 		<td><button id="left_in">左侧入</button><br></td>
-		<td rowspan="2"><textarea id="num"></textarea></td>
+		<td rowspan="2"><textarea id="num" placeholder="请输入数字、中文、英文等，用回车，逗号顿号，空格作为不同内容的间隔"></textarea></td>
 		<td><button id="right_in">右侧入</button><br></td>
 	</tr>
 	<tr>
@@ -95,23 +94,54 @@
 		orderLi = alignment.getElementsByTagName('li'),
 		input = document.getElementById('search'),
 		search = document.getElementById('searchDo');
-	function leftIn(){
+	function leftIn(inValue){
 			alignment.innerHTML = "</li>" + alignment.innerHTML;
-			for(i = text.value.length - 1;i >= 0;i--){
-				alignment.innerHTML = "<span>" + text.value[i] + "</span>" + alignment.innerHTML;
+			for(i = inValue.length - 1;i >= 0;i--){
+				alignment.innerHTML = "<span>" + inValue[i] + "</span>" + alignment.innerHTML;
 			}
 			alignment.innerHTML = "<li>" + alignment.innerHTML;
 	}
-	function rightIn(){
+
+	function rightIn(inValue){
 		function inner(){
 			var inn = "";
-			for(i = 0;i < text.value.length;i++){
-				inn += "<span>" + text.value[i] + "</span>";
+			for(i = 0;i < inValue.length;i++){
+				inn += "<span>" + inValue[i] + "</span>";
 			}
 			return inn;
 		}
 			alignment.innerHTML += "<li>" + inner() + "</li>";
 			console.log("!")
+	}
+		function inDe(where){
+		var inValues = [],
+		wordIndex = text.value.length - 1;
+		while(wordIndex >= 0){
+			wordLong = 0;
+			word = "";
+			for (var i = wordIndex;i >= 0;i--){
+				if(text.value[i]==" " ||text.value[i]=="\n"||text.value[i]=="、"||text.value[i]=="，"||text.value[i]==","||text.value[i]=="　"){break;}
+				wordLong++;
+			}
+			for(var i = wordIndex - wordLong + 1;i <= wordIndex;i++){
+				word += text.value[i];
+			}
+			if(word.length>0){
+				inValues.push(word);
+				console.log(inValues);
+			}
+			wordIndex -= wordLong + 1;
+		}	
+		if(where == "left"){
+			for(var i = 0;i < inValues.length;i++){
+				leftIn(inValues[i]);
+			}
+		}
+		if(where == "right"){
+			for(var i = inValues.length-1;i >= 0;i--){
+				rightIn(inValues[i]);
+			}
+		}
 	}
 	function leftOut(){
 		if(orderLi.length == 0){alert("没有数据可以移除了！"); return false;}
@@ -183,8 +213,8 @@
 
 
 
-	document.getElementById('left_in').onclick = function(){leftIn();}
-	document.getElementById('right_in').onclick = function(){rightIn();}
+	document.getElementById('left_in').onclick = function(){inDe("left");}
+	document.getElementById('right_in').onclick = function(){inDe("right");}
 	document.getElementById('left_out').onclick = function(){leftOut();}
 	document.getElementById('right_out').onclick = function(){rightOut();}
 	</script>
