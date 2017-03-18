@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	table{
+		border:3px solid green;
+		margin:0 auto;
+	}
+	#outSchoolInf{
+		display: none;
+	}
+	#csColls{
+		display: none;
+	}
+	</style>
+</head>
+<body>
+	<table>
+        <tr>
+	        <td></td>
+	        <td>
+	        <input type="radio" name="inOrOut" id="inSchool" checked>在校生</input>
+	        </td>
+	        <td>
+	        <input type="radio" name="inOrOut" id="outSchool">非在校生</input>
+	        </td>
+        </tr>
+        <tr id="inSchoolInf">
+            <td>学校</td>
+            <td>
+            <select name="city" id="citys">
+            	<option value="1">北京</option>
+            	<option value="2">长沙</option>
+            </select>
+            </td>
+            <td>
+            <select name="bjCol" id="bjColls">
+                <option value="1">北京大学</option>
+                <option value="2">清华大学</option>
+            </select><select name="csCol" id="csColls">
+                <option value="1">湖南大学</option>
+                <option value="2">中南大学</option>
+            </select></td>
+        </tr>
+        <tr id="outSchoolInf">
+            <td>就业单位</td>
+            <td colspan="2"><input type="text"></td>
+        </tr>
+	</table>
+	<script>
+		document.getElementById('inSchool').onclick = function(){
+			document.getElementById('inSchoolInf').style.display = "table-row";
+			document.getElementById('outSchoolInf').style.display = "none";
+		}
+		document.getElementById('outSchool').onclick = function(){
+			document.getElementById('outSchoolInf').style.display = "table-row";
+			document.getElementById('inSchoolInf').style.display = "none";
+		}
+		document.getElementById('citys').onclick = function(){
+			switch(document.getElementById('citys').value){
+				case "1":
+					document.getElementById('bjColls').style.display = "inline-block";
+			        document.getElementById('csColls').style.display = "none";
+			        break;
+				case "2":
+					document.getElementById('bjColls').style.display = "none";
+			        document.getElementById('csColls').style.display = "inline-block";
+			        break;
+			}
+		}
+	</script>
+</body>
+</html>
