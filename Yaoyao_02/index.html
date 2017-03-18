@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#proving{
+			background-color: blue;
+			color:white;
+		}
+		.inform{
+			color:#888;
+			font-size: 12px;
+		}
+		#name{
+			border:1px solid #888;
+		}
+		td{
+			text-align: center;
+			height:20px;
+		    width:200px;
+		}
+		#submit{
+			background-color: blue;
+			color:white;
+			width:100px;
+			height:30px;
+		}
+		table{
+			border:3px solid green;
+			margin:0 auto;
+		}
+	</style>
+</head>
+<body>
+<form action="#">
+	<table>
+		<tr>
+			<td>名称</td>
+			<td><input id="name" type="text"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="nameInform" class="inform"></td>
+		</tr>
+		<tr>
+			<td>密码</td>
+			<td><input id="password" type="password"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="passwordInform" class="inform"></td>
+		</tr>
+		<tr>
+			<td>密码确认</td>
+			<td><input id="passwordSec" type="password"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="passwordSecInform" class="inform"></td>
+		</tr>		
+		<tr>
+			<td>邮箱</td>
+			<td><input id="mail" type="text"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="mailInform" class="inform"></td>
+		</tr>		
+		<tr>
+			<td>手机</td>
+			<td><input id="phoneNum" type="text"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="phoneNumInform" class="inform"></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input id="submit" type="submit"></td>
+		</tr>
+	</table>
+</form>
+
+	<script>
+		var nameValue = document.getElementById('name'),
+		passwordValue = document.getElementById('password'),
+		passwordSecValue = document.getElementById('passwordSec'),
+		mailValue = document.getElementById('mail'),
+		phoneNumValue = document.getElementById('phoneNum'),
+		passwordOutput = document.getElementById('passwordInform'),
+		passwordSecOutput = document.getElementById('passwordSecInform'),
+		mailOutput = document.getElementById('mailInform'),
+		phoneNumOutput = document.getElementById('phoneNumInform'),
+		output = document.getElementById('nameInform');
+		function sizeName(){
+			var nameLength = 0;
+			for(var i = 0;i < nameValue.value.length;i++){
+				if(nameValue.value.charCodeAt(i) >= 0 && nameValue.value.charCodeAt(i) <= 128){
+					nameLength++;
+				}else nameLength += 2;
+			}
+			console.log(nameLength);
+			return nameLength;
+		}
+        function provingDo(length){
+        	if (length == 0){
+                output.innerHTML = "名称不能为空"
+                output.setAttribute("style","color:red;");
+                nameValue.setAttribute("style","border:1px solid red;");
+                return false;
+        	}else if(length < 4){
+                output.innerHTML = "您输入的名字太短了，名称应该大于四个字符"
+                output.setAttribute("style","color:red;");
+                nameValue.setAttribute("style","border:1px solid red;");
+                return false;
+        	}else if(length < 13){
+                output.innerHTML = "名称格式正确"
+                output.setAttribute("style","color:green;");
+                nameValue.setAttribute("style","border:1px solid green;");
+                return true;
+        	}else{
+                output.innerHTML = "您输入的名字太长了，名称应该小于十二个字符"
+                output.setAttribute("style","color:red;");
+                nameValue.setAttribute("style","border:1px solid red;");
+                return false;
+        	}
+        }
+        function provingPassword(){
+        	if(passwordValue.value.length == 0){
+        		passwordOutput.innerHTML = "密码不能为空";
+        		passwordOutput.setAttribute("style","color:red;");
+        		passwordValue.setAttribute("style","border:1px solid red;");
+                return false;
+        	}
+        	for(i = 0;i < passwordValue.value.length;i++){
+        	    if(passwordValue.value.charCodeAt(i) < 48 || 
+        	       passwordValue.value.charCodeAt(i) > 57 &&
+        	       passwordValue.value.charCodeAt(i) < 65 ||
+        	       passwordValue.value.charCodeAt(i) > 90 &&
+        	       passwordValue.value.charCodeAt(i) < 97 ||
+        	       passwordValue.value.charCodeAt(i) > 122){
+        		passwordOutput.innerHTML = "密码含有非数字或字母字符";
+        	    passwordOutput.setAttribute("style","color:red;");
+        		passwordValue.setAttribute("style","border:1px solid red;");
+                return false;        	    	
+        	    } 
+            }
+            if(passwordValue.value.length < 8){
+	    		passwordOutput.innerHTML = "密码太短了";
+	    	    passwordOutput.setAttribute("style","color:red;");
+	    		passwordValue.setAttribute("style","border:1px solid red;");
+	            return false;                 	
+            }else if(passwordValue.value.length > 16){
+	    		passwordOutput.innerHTML = "密码太长了";
+	    	    passwordOutput.setAttribute("style","color:red;");
+	    		passwordValue.setAttribute("style","border:1px solid red;");
+	            return false;                 	
+            }
+            var yes = true;
+            for(var i = 0;i < passwordValue.value.length;i++){
+                if(passwordValue.value.charCodeAt(i) >= 48 &&
+                   passwordValue.value.charCodeAt(i) <= 57){
+                   yes = true;
+                   break;
+                }else yes = false;
+            }
+            for(var i = 0;i < passwordValue.value.length;i++){
+            	if(passwordValue.value.charCodeAt(i) >= 65 &&
+                   passwordValue.value.charCodeAt(i) <= 90 ||
+                   passwordValue.value.charCodeAt(i) >= 97 &&
+                   passwordValue.value.charCodeAt(i) <= 122){
+                   yes = true;
+                   break;           		
+            	}else yes =false;
+            }
+            if(yes){
+            	passwordOutput.innerHTML = "密码格式正确"
+                passwordOutput.setAttribute("style","color:green;");
+                passwordValue.setAttribute("style","border:1px solid green;");
+                return true;
+            }else {
+            	passwordOutput.innerHTML = "密码中必须同时包含数字和字母";
+	    	    passwordOutput.setAttribute("style","color:red;");
+	    		passwordValue.setAttribute("style","border:1px solid red;");
+	            return false; 
+            }
+        }
+        function provingPasswordSec(){
+        	if(passwordSecValue.value != passwordValue.value){
+        		passwordSecOutput.innerHTML = "两次密码输入不一致";
+	    	    passwordSecOutput.setAttribute("style","color:red;");
+	    		passwordSecValue.setAttribute("style","border:1px solid red;");
+	            return false; 
+        	} else {
+            	passwordSecOutput.innerHTML = "密码输入一致"
+                passwordSecOutput.setAttribute("style","color:green;");
+                passwordSecValue.setAttribute("style","border:1px solid green;");
+                return true;
+        	}
+        }
+        var check = true;
+        function provingMail(){
+        	if(mailValue.value.length == 0 && check){
+        		mailOutput.innerHTML = "手机号或邮箱请至少正确的输入一个";
+	    	    mailOutput.setAttribute("style","color:red;");
+	    		mailValue.setAttribute("style","border:1px solid red;");
+	    		check = true;
+        		return false;
+        	}
+        	if(mailValue.value.length == 0 && !check){
+        		mailOutput.innerHTML = "";
+	    		mailValue.setAttribute("style","border:1px solid #888;");
+	    		check = false;
+        		return true;        		
+        	}
+        	for(var i = 0;i < mailValue.value.length;i++){
+        	    if((mailValue.value.charCodeAt(i) < 48 || 
+        	       mailValue.value.charCodeAt(i) > 57 &&
+        	       mailValue.value.charCodeAt(i) < 65 ||
+        	       mailValue.value.charCodeAt(i) > 90 &&
+        	       mailValue.value.charCodeAt(i) < 97 ||
+        	       mailValue.value.charCodeAt(i) > 122) &&
+        	       mailValue.value[i] != '@' &&
+        	       mailValue.value[i] != '.'){
+	        		mailOutput.innerHTML = "邮箱含有非法字符";
+	        	    mailOutput.setAttribute("style","color:red;");
+	        		mailValue.setAttribute("style","border:1px solid red;");
+	        		check = true;
+	                return false;        	    	
+        	    } 
+            }
+            for(var i = 0;i < mailValue.value.length;i++){
+                if(mailValue.value[i] == "."){break;}
+                if(mailValue.value[i] == "@"){
+                    for(var j = mailValue.value.length - 1;j > i;j--){
+                    	if(mailValue.value[j] == "."){
+                    		for(var k = j-1;k > i;k--){
+                    			if(mailValue.value[k] == "." || mailValue.value[k] == "@"){
+                    				    mailOutput.innerHTML = "邮箱地址错误";
+									    mailOutput.setAttribute("style","color:red;");
+										mailValue.setAttribute("style","border:1px solid red;");
+										check = true;
+										console.log("!");
+								        return false;
+                    			}
+                    		}
+        				    mailOutput.innerHTML = "邮箱格式正确";
+						    mailOutput.setAttribute("style","color:green;");
+							mailValue.setAttribute("style","border:1px solid green;");
+							check = false;
+					        return true;
+                    	}
+                    }
+                }
+             
+            }
+        mailOutput.innerHTML = "邮箱地址错误";
+	    mailOutput.setAttribute("style","color:red;");
+		mailValue.setAttribute("style","border:1px solid red;");
+		check = true;
+        return false;
+        }
+        //3,4,5,7,8
+        function provingPhoneNum(){
+        	if(phoneNumValue.value.length == 0 && check){
+        		phoneNumOutput.innerHTML = "手机号或邮箱请至少正确的输入一个";
+	    	    phoneNumOutput.setAttribute("style","color:red;");
+	    		phoneNumValue.setAttribute("style","border:1px solid red;");
+	    		check = true;
+        		return false;
+        	}
+        	if(phoneNumValue.value.length == 0 && !check){
+        		phoneNumOutput.innerHTML = "";
+	    		phoneNumValue.setAttribute("style","border:1px solid #888;");
+	    		check = false;
+        		return true;        		
+        	}
+        	if(phoneNumValue.value.length != 11){
+        		phoneNumOutput.innerHTML = "您输入的号码位数不对";
+	    	    phoneNumOutput.setAttribute("style","color:red;");
+	    		phoneNumValue.setAttribute("style","border:1px solid red;");
+	    		check = true;
+        		return false;
+        	}
+        	for(var i = 0;i < phoneNumValue.value.length;i++){
+	        	if(phoneNumValue.value.charCodeAt(i) < 48 ||
+	               phoneNumValue.value.charCodeAt(i) > 57){
+		            phoneNumOutput.innerHTML = "您输入的手机号中含有非半角数字";
+		    	    phoneNumOutput.setAttribute("style","color:red;");
+		    		phoneNumValue.setAttribute("style","border:1px solid red;");
+		    		check = true;
+	        		return false;
+	        	}
+	        }
+	        if(phoneNumValue.value[0] == '1'){
+	        	if(phoneNumValue.value[1] == '3' ||
+	        	   phoneNumValue.value[1] == '4' ||
+	        	   phoneNumValue.value[1] == '5' ||
+	        	   phoneNumValue.value[1] == '7' ||
+	        	   phoneNumValue.value[1] == '8' ){
+	        	phoneNumOutput.innerHTML = "手机号码输入正确";
+                phoneNumOutput.setAttribute("style","color:green;");
+                phoneNumValue.setAttribute("style","border:1px solid green;");
+                check = false;
+                return true;
+	        	}
+	        }else{
+	            phoneNumOutput.innerHTML = "您输入的不是一个手机号";
+	    	    phoneNumOutput.setAttribute("style","color:red;");
+	    		phoneNumValue.setAttribute("style","border:1px solid red;");
+	    		check = true;
+        		return false;	        	
+	        }
+	    }
+        nameValue.onblur = function(){provingDo(sizeName());}
+        passwordValue.onblur = function(){provingPassword();}
+        passwordSecValue.onblur = function(){provingPasswordSec();}
+        phoneNumValue.onblur = function(){provingPhoneNum();provingMail();}
+        mailValue.onblur = function(){provingMail();provingPhoneNum();}
+        nameValue.onfocus = function(){
+        	output.innerHTML = "必填，长度为4～12个字符";
+            output.setAttribute("style","color:#888;");
+        }
+        passwordValue.onfocus = function(){
+         	passwordOutput.innerHTML = "必填，长度为8～16个字符的数字字母组合";
+            passwordOutput.setAttribute("style","color:#888;");       	
+        }
+        passwordSecValue.onfocus = function(){
+         	passwordSecOutput.innerHTML = "请重复输入一遍密码";
+            passwordSecOutput.setAttribute("style","color:#888;"); 
+        }
+        mailValue.onfocus = function(){
+         	mailOutput.innerHTML = "邮箱或者手机号至少填写一个，<br>请输入您的邮箱，形如：yourname@mail.com";
+            mailOutput.setAttribute("style","color:#888;"); 
+        }
+        phoneNumValue.onfocus = function(){
+         	phoneNumOutput.innerHTML = "邮箱或者手机号至少填写一个，<br>请输入您的11位中国手机号";
+            phoneNumOutput.setAttribute("style","color:#888;"); 
+        }
+        document.getElementById('submit').onclick = function(){
+        	if(provingPhoneNum() && provingPasswordSec() && provingPassword() && provingDo(sizeName()) && provingMail()){
+        		alert('提交成功！');
+        	}else alert('提交失败，请检查您的数据。');
+        }
+	</script>
+</body>
+</html>
