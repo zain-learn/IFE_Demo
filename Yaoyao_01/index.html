@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#proving{
+			background-color: blue;
+			color:white;
+		}
+		#inform{
+			color:#888;
+			font-size: 12px;
+		}
+		#name{
+			border:1px solid #888;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>名称</td>
+			<td><input id="name" type="text"></td>
+			<td><button id="proving">验证</button></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="inform" colspan="2">必填，长度为4～16个字符</td>
+		</tr>
+	</table>
+
+	<script>
+		var nameValue = document.getElementById('name'),
+		output = document.getElementById('inform');
+		function sizeName(){
+			var nameLength = 0;
+			for(var i = 0;i < nameValue.value.length;i++){
+				if(nameValue.value.charCodeAt(i) >= 0 && nameValue.value.charCodeAt(i) <= 128){
+					nameLength++;
+				}else nameLength += 2;
+			}
+			console.log(nameLength);
+			return nameLength;
+		}
+        function provingDo(length){
+        	if (length == 0){
+                output.innerHTML = "名称不能为空"
+                output.setAttribute("style","color:red");
+                nameValue.setAttribute("style","border:1px solid red");
+        	}else if(length < 4){
+                output.innerHTML = "您输入的名字太短了，名称应该大于四个字符"
+                output.setAttribute("style","color:red");
+                nameValue.setAttribute("style","border:1px solid red");
+        	}else if(length < 13){
+                output.innerHTML = "名称格式正确"
+                output.setAttribute("style","color:green");
+                nameValue.setAttribute("style","border:1px solid green");
+        	}else{
+                output.innerHTML = "您输入的名字太长了，名称应该小于十二个字符"
+                output.setAttribute("style","color:red");
+                nameValue.setAttribute("style","border:1px solid red");
+        	}
+        }
+        document.getElementById('proving').onclick = function(){provingDo(sizeName());}
+	</script>
+</body>
+</html>
