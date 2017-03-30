@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<style>
+		.map{
+			border-collapse: collapse;
+			position: relative;
+		}
+		.map td{
+			height:28px;
+			width:28px;
+			border:1px solid black;
+		}
+		.block{
+			position: absolute;
+			height:25px;
+			width: 25px;
+			border:3px solid red;
+			background-color:red; 
+		}
+	</style>
+</head>
+<body>
+	<input type="text" id="command"><input type="button" value="执行" id="doit">
+	<ul>
+		<li>"GO":向朝向方向走一格</li>
+		<li>"TUN LEF":向左转</li>
+		<li>"TUN RIG":向右转</li>
+		<li>"TUN BAC":向后转</li>
+	</ul>
+	<script>
+	// 定义活动区域大小
+	var ROW = 10,
+		COL = 15;
+	/*! 
+	*  定义“小方块”的对象
+	*  定义了小方块的坐标和朝向
+	*  定义了三个转向函数,在dirBack函数中调整了朝向超量调回
+	*  定义了go函数，并在其中做了边界限制
+	*/
+	function Block() {
+		this.positionX = 0;
+		this.positionY = 0;
+		this.direction = 0;
+		function dirBack(dir){
+			switch (dir.direction) { 
+				case -1:dir.direction = 3;break;
+				case 4:dir.direction = 0;break;
+				case 5:dir.direction = 1;break; 
+			}
+		}
+		this.turnRight = function(){
+			this.direction += 1;
+			dirBack(this);
+		}
+		this.turnBack = function(){
+			this.direction += 2;
+			dirBack(this);
+		}
+		this.turnLeft = function(){
+			this.direction -= 1;
+			dirBack(this);
+		}
+		this.go = function(){
+			switch (this.direction) {
+				case 0:if(this.positionY > 0){this.positionY--;} break;
+				case 2:if(this.positionY < ROW - 1){this.positionY++;} break;
+				case 1:if(this.positionX < COL - 1){this.positionX++;} break;
+				case 3:if(this.positionX > 0){this.positionX--;} break;
+			}
+		}
+	}
+	/*
+	* 创建表格的函数
+	*/
+	function createTable(){
+		var table = $("<table class=\"map\"></table>");
+
+		var tbody = $("<tbody></tbody>");
+		function creatRow(){
+			var tabletr = $("<tr></tr>");
+			for(var i = 0;i < COL;i++){
+				tabletr.append($("<td></td>"));
+			}
+			return tabletr;
+		}
+		for(var i = 0;i < ROW;i++){
+			tbody.append(creatRow());		
+		}
+		table.append(tbody);
+		$("body").append(table);
+	}
+	/*
+	*  创建实体方块的函数
+	 */
+	function creatDOMBlock(){
+		domBlock = $("<div class=\"block\"></div>");  //注意这里创建的是全局变量
+		$(".map").append(domBlock);
+		domBlock.css("left","0").css("top","0");
+	}
+	/*
+	*  刷新实体方块与抽象方块之间的联系的函数
+	 */
+	function renovate(blo){
+		var trueWidth = parseInt(domBlock.css("width")) +2 * parseInt(domBlock.css("border-width"));
+		var trueHeight = parseInt(domBlock.css("height")) + 2 * parseInt(domBlock.css("border-width"));
+		domBlock.css("left",blo.positionX*trueWidth + "px")
+				.css("top",blo.positionY*trueHeight + "px");
+		domBlock.css("border-color","red");
+		switch (blo.direction){
+			case 0:domBlock.css("border-top-color","blue");break;
+			case 1:domBlock.css("border-right-color","blue");break;
+			case 2:domBlock.css("border-bottom-color","blue");break;
+			case 3:domBlock.css("border-left-color","blue");break;
+		}
+	}
+	/*
+	*  初始化
+	 */
+	createTable();
+	creatDOMBlock();
+	var block = new Block();
+	renovate(block);
+
+	/*
+	*  绑定点击事件
+	 */
+	$("#doit").click(function(){
+		switch ($("#command").val()){
+			case "GO":block.go();break;
+			case "TUN LEF":block.turnLeft();break;
+			case "TUN RIG":block.turnRight();break;
+			case "TUN BAC":block.turnBack();break;
+			default: return false;
+		}
+		renovate(block);
+	})
+	</script>
+</body>
+</html>
